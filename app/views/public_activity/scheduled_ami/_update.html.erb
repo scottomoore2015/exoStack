@@ -1,0 +1,12 @@
+ updated scheduled_ami 
+
+<% if activity.trackable %>
+ on <%= link_to activity.trackable.name, activity.trackable %>
+  <p><i>  <%= time_ago_in_words(activity.created_at).gsub('about','') + ' ago' %></i></p>
+ 
+<% else %>
+  which has since been removed
+<% end %>
+
+
+

@@ -1,0 +1,83 @@
+<div id="signup-box" class="visible widget-box no-border">
+
+      <% if resource.errors.count > 0 %>
+	      <%= content_tag :div, class: 'alert alert-error' do %>
+	        <button type="button" class="close" data-dismiss="alert">&times;</button>
+	        <%= resource.errors.full_messages.join(', ') %>
+	      <% end %>
+	    <% end %>
+
+        <div class="widget-body">
+         <div class="widget-main">
+            <h4 class="header green lighter bigger"><i class="icon-group blue"></i> New User Registration</h4>
+            <div class="space-6"></div>
+
+            <p>
+                Enter your details to begin:
+            </p>
+            
+            <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+                 <fieldset>
+                    <label>
+                        <span class="block input-icon input-icon-right">
+                            <%= f.email_field :email, :autofocus => true, :class => "span12", :placeholder => "Email", :required => true %>
+                            <i class="icon-envelope"></i>
+                        </span>
+                    </label>
+                    <label>
+                        <span class="block input-icon input-icon-right">
+                            <%= f.text_field :first_name, :class => "span12", :placeholder => "First Name", :required => true %>
+                            <i class="icon-user"></i>
+                        </span>
+                    </label>
+                    <label>
+                        <span class="block input-icon input-icon-right">
+                            <%= f.text_field :last_name, :class => "span12", :placeholder => "Last Name", :required => true %>
+                            <i class="icon-user"></i>
+                        </span>
+                    </label>
+                    <label>
+                        <span class="block input-icon input-icon-right">
+                            <%= f.password_field :password, :class => "span12", :placeholder => "Password", :required => true %>
+                            <i class="icon-lock"></i>
+                        </span>
+                    </label>
+                    <label>
+                        <span class="block input-icon input-icon-right">
+                            <%= f.password_field :password_confirmation, :class => "span12", :placeholder => "Retype Password", :required => true %>
+                            <i class="icon-retweet"></i>
+                        </span>
+                    </label>
+                   <label>
+					<span class="block input-icon input-icon-right">
+                        <%= f.select(:default_region, ["us-east-1", "us-west-2", "us-west-1", "eu-west-1", "ap-southeast-1", "ap-southeast-2", "ap-northeast-1", "sa-east-1", "us-gov-west-1"  ],{:include_blank => 'Default EC2 Region'},{:Class=>'span12 form-control',:required => true}) %>
+					</span>
+                   </label>
+
+                    <div class="control-group">
+						<div class="controls">
+							<%= f.check_box :role, {:class => "span12"}, "bussiness_man", "normal_user" %><span class="lbl"> Register as a Business </span>
+							<label for="user[role]" class="lbl"></label>
+						</div>
+					</div> 
+
+                    <div class="space-24"></div>
+                    <div class="row-fluid">
+                        <button type="reset" class="span6 btn btn-small"><i class="icon-refresh"></i> Reset</button>
+                        <button type="subm  it" class="span6 btn btn-small btn-success">
+                          <i class="icon-arrow-right icon-on-right"></i> Register
+                        </button>
+                    </div>
+
+                  </fieldset>
+            <% end %>
+        </div>
+
+
+        <div class="toolbar center">
+            <a href=<%= new_session_path(resource_name)%> class="back-to-login-link"><i class="icon-arrow-left"></i> Back to login</a>
+        </div>
+
+     </div><!--/widget-body-->
+
+    </div><!--/signup-box-->

@@ -1,0 +1,40 @@
+<% if @snapshots.blank? %>
+	<div class='well'>
+		<center>No snapshots found for your account.</center>
+	</div>
+<% else %>
+	<table id="table-snapshot" class="table table-striped table-bordered table-hover">
+		<thead>
+			<tr>
+				<th>Snapshot ID</th>
+				<th>Volume ID</th>
+				<th class="hidden-phone">Capacity</th>
+				<th class="hidden-phone">Description</th>
+				<th>Status</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+	
+		<tbody>
+			<% @snapshots.each do |snapshot|%>
+				<tr>
+					<td><%= snapshot.snapshot_id %></td>
+					<td><%= snapshot.volume_id %></td>
+					<td class="hidden-phone"><%= snapshot.volume_size %> GiB</td>
+					<td class="hidden-phone"><%= snapshot.description %></td>
+					<td>
+						<% snap_state = snapshot.status %>
+						<%= content_tag :span, class: snapshot_state_class(snap_state) do %>
+							<%= snap_state.camelize %>
+						<% end %>
+					</td>
+					<td>
+						<div class="inline position-relative">
+							<button id=<%= snapshot.snapshot_id%> class="btn btn-minier btn-primary delete_snapshot tooltip-success" data-rel="tooltip" title="Delete Snapshot" data-placement="left"><i class="icon-trash icon-white"></i></button>
+						</div>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+<% end %>

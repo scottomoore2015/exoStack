@@ -1,0 +1,72 @@
+<% content_for :breadcrumbs do %>
+	<div id="breadcrumbs">
+		<ul class="breadcrumb">
+			<li><i class="icon-home"></i><a href="<%= root_path %>">Home</a><span class="divider"><i class="icon-angle-right"></i></span></li>
+			<li class="active">Instances</li>
+		</ul>
+	</div>
+<% end %>
+<% content_for :header do %>
+	<div class="page-header position-relative">
+		<h1>Instances</h1>
+	</div><!--/page-header-->
+<% end %>
+<div class="row-fluid">
+	<div class="table-header form-inline" style="margin-bottom:0px;">
+		<b>Availability Zone :</b>
+		&nbsp;
+		<%= select_tag "availability_zone", options_for_select(User::REGIONS[current_user.default_region],"all"), id: 'select-availability-zone' %>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<b>Filters: </b>
+		&nbsp;
+		<%= select_tag "filters", options_for_select(["None", "Instance ID", "AMI", "Volume ID", "Tags"], "None"), id: 'select-instance-filter'%>
+		<%= text_field_tag "key", nil, placeholder: 'Key', class: 'input-small', id: 'filter-key', style: 'display:none;' %>
+		<%= text_field_tag "value", nil, placeholder: 'Value', class: 'input-small', id: 'filter-value', style: 'display:none;' %>
+		<input type="button" id = "search-by-filter" value="Search By Filter" class="search_filters" >
+	</div>
+	<div class="span12" style="margin-left:0px;" id="list-instances">
+		<!-- Content to be loaded using Ajax -->
+	</div><!--/span-->
+</div><!--/row-->
+
+
+<!-- instance detail start -->
+
+
+						<!-- PAGE CONTENT BEGINS HERE -->
+	<div class="row-fluid" id="instance-detail"  style="margin-top: 37px; display: none;" >
+	<div style="margin-bottom:0px;" class="table-header form-inline">
+		<b>Details</b>
+		
+	</div>
+	<div  style="margin-left:0px;" class="span12" id="div-instance-detail">
+		
+	
+
+
+
+</div><!--/span-->
+</div><!--/row-->
+
+
+
+
+<script type="text/javascript">
+	window.onload = function() {
+		$('li#nav-elements').addClass('active open');
+		$('li#nav-element-instances').addClass('active');
+		return $list_instances('all', '','', '', '');
+	};
+</script>
+
+						<!-- PAGE CONTENT ENDS HERE -->
+						 </div>
+
+
+<script type='text/javascript'>
+	window.onload = function() {
+		$('li#nav-elements').addClass('active open');
+		$('li#nav-element-instances').addClass('active');
+		return $list_instances('all', '','', '', '');
+	};
+</script>

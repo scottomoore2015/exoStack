@@ -1,0 +1,56 @@
+<% content_for :breadcrumbs do %>
+	<div id="breadcrumbs">
+		<ul class="breadcrumb">
+			<li><i class="icon-home"></i><a href="<%= root_path %>">Home</a><span class="divider"><i class="icon-angle-right"></i></span></li>
+			<li class="active">List of the Members</li>
+		</ul>
+	</div>
+<% end %>
+<% content_for :header do %>
+	<div class="page-header position-relative">
+        <a class="pull-right btn btn-default m-left-5 m-right-5" href="<%=  profile_path %>" rel="tooltip" title="Back">
+        <span class="glyphicon glyphicon-backward"></span>
+        Back
+        </a>
+		<h1>List of the Members</h1>
+	</div><!--/page-header-->
+<% end %>
+
+
+<div class="col-xs-1"></div>
+<div class="col-xs-9">
+  <div class="table-responsive">
+    <%= form_tag  delete_multiple_member_path, :method=> 'get'  do %>
+    <table class="table table-striped table-bordered table-hover" id="table_gateways">
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+
+          <th><%= submit_tag "Delete Selected" , id: 'member_delete_btn',class:'span6 btn btn-small btn-danger ',disabled: true %> </th>
+
+        </tr>
+        <tbody>
+          <% @members.each do |member| %>
+            <tr>
+              <td>
+                <%= member.first_name %>
+              </td>
+              <td>
+                <%= member.last_name %>
+              </td>
+              <td>
+                <%= member.email %>
+              </td>
+              <td >
+                <%= check_box_tag "member_ids[]", member.id ,false ,class: 'delete_member_cb'  %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </thead>
+    </table>
+   <% end %>
+  </div>
+</div>

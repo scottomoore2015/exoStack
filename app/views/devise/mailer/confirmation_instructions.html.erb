@@ -1,0 +1,26 @@
+<p>Welcome <%= @email %>!</p>
+
+<p>You can confirm your account email through the link below:</p>
+<p><%= link_to 'Confirm my account', confirmation_url(@resource, :confirmation_token => @token) %></p>
+
+<%unless @resource.admin_id.nil? %>
+<p> Your temporary password is  <%= @resource.temporary_password %></p>
+
+
+<p>After logging-in first time into your profile you can access your Amazon IAM user profile using following login details:  </p>
+    <table>
+      <tr>
+        <td><strong>Amazon Console URL:</strong></td>
+        <td> https://<%= @resource.account_alias %>.<%= @resource.default_region == 'us-gov-west-1' ?    'signin.amazonaws-us-gov.com/console' : 'signin.aws.amazon.com/console' %></td>
+      </tr>
+      <tr>
+        <td><strong>User Name:</strong></td>
+        <td> <%= @resource.iam_username %> </td>
+      </tr>
+      <tr>
+        <td><strong>Password:</strong></td>
+        <td><%= @resource.iam_password %></td>
+      </tr>
+    </table>
+
+<%end%>

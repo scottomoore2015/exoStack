@@ -1,0 +1,44 @@
+<% content_for :breadcrumbs do %>
+	<div id="breadcrumbs">
+		<ul class="breadcrumb">
+			<li><i class="icon-home"></i><a href="<%= root_path %>">Home</a><span class="divider"><i class="icon-angle-right"></i></span></li>
+			<li class="active">User Activities</li>
+		</ul>
+	</div>
+<% end %>
+<% content_for :header do %>
+	<div class="page-header position-relative row-fluid">
+		<h1>User Activities</h1>
+	</div><!--/page-header-->
+<% end %>
+
+<div class="row-fluid">
+	<div class="span12" style="margin-left:0px;" id="list-scheduled-snapshots">
+	  <% if @activities.present? %>
+		<table id="table_bug_report" class="table table-striped table-bordered table-hover">
+			<tbody>			
+				<% @activities.each do |activity| %>
+					<tr>
+						<td>
+						<%= link_to_if activity.owner.id == current_user.id, activity.owner.first_name.try(:humanize), profile_path if activity.owner %>
+						<%= render_activity activity %></td>
+					</tr>
+				<% end %>
+
+
+
+			</tbody>
+		</table>
+<% else %>
+<center><h4>No activities found!</h4></center>
+				<% end %>
+		
+	</div><!--/span-->
+</div><!--/row-->
+
+<script type='text/javascript'>
+window.onload = function() {
+		$('li#nav-actions').addClass('active open');
+		$('li#nav-user-activities').addClass('active');
+	};
+</script>

@@ -1,0 +1,9 @@
+added schedule snapshot
+
+<% if activity.trackable %>
+  to <%= link_to activity.trackable.volume_id, activity.trackable %>
+  <p><i>  <%= time_ago_in_words(activity.created_at).gsub('about','') + ' ago' %></i></p>
+  
+<% else %>
+  which has since been removed
+<% end %>

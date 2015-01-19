@@ -1,0 +1,99 @@
+<% if @instances.blank? %>
+	<div class='well'>
+		<center>No instances found</center>
+	</div>
+<% else %>
+	<table id="table_bug_report" class="table table-striped table-bordered table-hover table-condensed">
+		<thead>
+			<tr>
+				<th></th>
+				<th class="center">Name</th>
+				<th>Instance ID</th>
+				<th class="hidden-phone">Instance Type</th>
+				<th class="hidden-phone">Availabily Zone</th>
+				<th class="hidden-phone">State</th>
+				<th>Volumes</th>
+				<th>Est. Monthly Spend</th>
+				<th>Est. Yearly Spend</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+	
+		<tbody>
+			<% @instances.each do |instance| %>
+				<tr>
+					<td>
+						<% unless instance.instance_state[:name] == "terminated"%>
+							<div class="control-group">
+								<div class="controls">
+									<input  id="instances_list" type="checkbox" name="instance[instance_id][]" value="<%= instance.instance_id %>" />
+									<label for="instance[instance_id][]" class="lbl"></label>
+								</div>
+							</div>
+						<% end %>
+					</td>
+					<td>
+						<%= instance.tag_set.find{|ts| ts[:key]=="Name"}[:value] if instance.tag_set.find{|ts| ts[:key]=="Name"}%>
+					</td>
+					<td>
+                         <%= link_to instance.instance_id, aws_action_path(instance.instance_id), :remote=>true, :class => 'instance-detail-link' %>
+					</td> 
+					<td class="hidden-phone"><%= instance.instance_type %></td>
+					<td class="hidden-phone"><%= instance.placement.availability_zone %></td>
+					<td class="hidden-phone">
+						<% inst_state = instance.instance_state[:name] %>
+						<%= content_tag :span, class: instance_state_class(inst_state) do %>
+							<%= inst_state.camelize %>
+						<% end %>
+					</td>
+					<td>
+						<%= instance.block_device_mapping.map(&:ebs).map(&:volume_id).join(', ') %>
+					</td>
+			        <td> <%cost = est_monthly_spend(region=instance.placement.availability_zone,instance_type=instance.instance_type, 'linux')%>
+						<%= cost[0].is_a?(Numeric) ? number_to_currency(cost[0]) : "N/A" %>
+					</td>
+					<td>
+						<%= cost[0].is_a?(Numeric) ? number_to_currency(cost[1]) : "N/A" %>
+
+					</td>
+					<td>
+						<% unless instance.instance_state[:name] == "terminated"%>
+							<div class="inline position-relative">
+								<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown"><i class="icon-cog icon-only"></i></button>
+								<ul class="dropdown-menu dropdown-icon-only dropdown-light pull-right dropdown-caret dropdown-close">
+									<li><a href="<%= create_snapshot_aws_actions_path(instance_id: instance.instance_id)%>" class="tooltip-warning" data-rel="tooltip" title="Schedule Snapshot" data-placement="left"><span class="blue"><i class="icon-time"></i></span> </a></li>
+									<li><a href="<%= create_schedule_aws_actions_path(inst: instance.instance_id)%>" class="tooltip-warning" data-rel="tooltip" title="Schedule instance" data-placement="left"><span class="blue"><i class="icon-cogs"></i></span> </a></li>									
+									<% if instance.instance_state[:name] == "running" %>
+										<li><a href="<%= instant_action_schedules_path(instance_id: instance.instance_id, type: "Stop")%>" class="tooltip-warning" data-rel="tooltip" title="Stop Instance" data-placement="left"><span class="red"><i class="icon-stop"></i></span> </a></li>
+										<li><a href="<%= instant_action_schedules_path(instance_id: instance.instance_id, type: "Reboot")%>" class="tooltip-warning" data-rel="tooltip" title="Reboot Instance" data-placement="left"><span class="orange"><i class="icon-refresh"></i></span> </a></li>
+									<% elsif instance.instance_state[:name] == "stopped"%>
+										<li><a href="<%= instant_action_schedules_path(instance_id: instance.instance_id, type: "Start")%>" class="tooltip-warning" data-rel="tooltip" title="Start Instance" data-placement="left"><span class="green"><i class="icon-play"></i></span> </a></li>
+									<% end %>
+									<li><a href="<%= create_ami_aws_actions_path(inst: instance.instance_id)%>" class="tooltip-warning" data-rel="tooltip" title="Schedule AMI" data-placement="left"><span class="blue"><i class=" icon-screenshot"></i></span> </a></li>
+								</ul>
+							</div>
+						<% end %>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+	<button id="schedule_instances" class="btn btn-small btn-primary"><i class="icon-time"></i> Schedule Instances</button>
+	<button id="schedule_amis" class="btn btn-small btn-primary"><i class="icon-time"></i> Schedule AMIs</button>
+	<% if @next_token %>
+		<div class="row-fluid">
+			<div class="span6">
+			</div>
+			<div class="span6">
+				<div class="dataTables_paginate paging_bootstrap pagination">
+					<ul>
+						<li class="next"><a id="<%= @next_token %>" class="load-more-instances" style="cursor:pointer">Next</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	<% end %>
+<% end %>
+
+<!-- ddddddddddddd -->
+

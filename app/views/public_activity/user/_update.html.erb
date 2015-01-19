@@ -1,0 +1,11 @@
+ updated his 
+
+<% if activity.trackable %>
+ <%= link_to_if activity.owner.id == current_user.id, 'profile', profile_path %>
+  <p><i>  <%= time_ago_in_words(activity.created_at).gsub('about','') + ' ago' %></i></p>
+<% else %>
+  which has since been removed
+<% end %>
+
+
+

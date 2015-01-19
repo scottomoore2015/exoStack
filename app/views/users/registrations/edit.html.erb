@@ -1,0 +1,65 @@
+<div id="edit-detail-box" class="visible widget-box no-border">
+
+	<% if resource.errors.count > 0 %>
+		<%= content_tag :div, class: 'alert alert-error' do %>
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<%= resource.errors.full_messages.join(', ') %>
+		<% end %>
+	<% end %>
+
+	<div class="widget-body">
+		<div class="widget-main">
+			<h4 class="header green lighter bigger"><i class="icon-group blue"></i> Edit Details </h4>
+			<div class="space-6"></div>
+
+			<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+			<fieldset>
+				<label>
+					<span class="block input-icon input-icon-right">
+						<%= f.email_field :email, :autofocus => true, :class => "span12", :placeholder => "Email", :disabled => true, :required => true %>
+						<i class="icon-envelope"></i>
+					</span>
+				</label>
+				<label>
+					<span class="block input-icon input-icon-right">
+						<%= f.text_field :first_name, :class => "span12", :placeholder => "First Name", :required => true %>
+						<i class="icon-user"></i>
+					</span>
+				</label>
+				<label>
+					<span class="block input-icon input-icon-right">
+						<%= f.text_field :last_name, :class => "span12", :placeholder => "Last Name", :required => true %>
+						<i class="icon-user"></i>
+					</span>
+				</label>
+
+                <label>
+					<span class="block input-icon input-icon-right">
+                                                                  <%= f.select(:time_zone, [ ['UTC', nil], ['UTC+1','+1'], ['UTC+2','+2'], ['UTC+3','+3'], ['UTC+4','+4'],['UTC+5','+5'],['UTC+6','+6'],['UTC+7','+7'],['UTC+8','+8'],['UTC+9','+9'],['Chamorro Time(no DST)','+10'],['UTC+11','+11'],['UTC+12','+12'],['UTC-1','-1'],['UTC-2','-2'],['Eastern Time',ActiveSupport::TimeZone.new("Eastern Time (US & Canada)").formatted_offset],['Central Time',ActiveSupport::TimeZone.new("Central Time (US & Canada)").formatted_offset] ,['Pacific Time',ActiveSupport::TimeZone.new("Pacific Time (US & Canada)").formatted_offset],['Arizona' ,ActiveSupport::TimeZone.new("Arizona").formatted_offset],['Hawaii Time',ActiveSupport::TimeZone.new("Hawaii").formatted_offset],['Samoa Standard Time','-11'],['UTC+13','+13'],['UTC+14','+14'] ],{:include_blank => 'Select Your Time Zone'},{:Class=>'span12 form-control' }) %>
+					</span>
+                </label>
+				<label>
+					<span class="block input-icon input-icon-right">
+						<%= f.password_field :current_password, :class => "span12", :placeholder => "Enter Current Password", :required => true %>
+						<i class="icon-lock"></i>
+					</span>
+				</label>
+				<div class="space-24"></div>
+
+				<div class="row-fluid">
+					<%= link_to profile_path, class: "span6 btn btn-small btn-danger " do %>
+						<i class="icon-arrow-left"></i>
+						Cancel
+					<% end %>
+					<button type="submit" class="span6 btn btn-small btn-success center">
+						<i class="icon-arrow-right icon-on-right"></i> Submit
+					</button>
+				</div>
+
+			</fieldset>
+			<% end %>
+		</div>
+
+	</div><!--/widget-body-->
+
+</div><!--/edit-detail-box-->

@@ -1,0 +1,103 @@
+<% content_for :breadcrumbs do %>
+	<div id="breadcrumbs">
+		<ul class="breadcrumb">
+			<li><i class="icon-home"></i><a href="<%= root_path %>">Home</a><span class="divider"><i class="icon-angle-right"></i></span></li>
+			<li class="active">Profile</li>
+		</ul>
+	</div>
+<% end %>
+<% content_for :header do %>
+	<div class="page-header position-relative">
+        <% if @user.role == "bussiness_man" %>
+           <a class="pull-right btn btn-default m-left-5 m-right-5" href="<%=  list_members_user_path(@user.id) %>" rel="tooltip" title="Add new user">
+          <span class="glyphicon glyphicon-backward"></span>
+          List of the Members
+          &nbsp
+          <a class="pull-right btn btn-default m-left-5 m-right-5" href="<%=  add_member_user_path(@user.id) %>" rel="tooltip" title="Add new user">
+          <span class="glyphicon glyphicon-user"></span>
+          Add New Member
+          </a>
+        <% end %>
+		<h1>Profile Details</h1>
+	</div><!--/page-header-->
+<% end %>
+
+<div class="row-fluid">
+	<div class="span6">
+              
+		<div class="widget-box">
+			<div class="widget-header widget-header-small header-color-blue">
+				<h5><i class="icon-list"></i> Basic Detail</h5>
+			</div>
+			
+			<div class="widget-body">
+				<div class="widget-main">
+					<div align="center">
+						<table class="no-border">
+							<tr><td align="right"><b style="">First Name :</b></td><td>&nbsp;</td></td><td align="left"><%= @user.first_name %></td></tr>
+							<tr><td align="right"><b style="">Last Name :</b></td><td>&nbsp;</td></td><td align="left"><%= @user.last_name %></td></tr>
+							<tr><td align="right"><b style="">Email :</b></td><td>&nbsp;</td></td><td align="left"><%= @user.email %></td></tr>
+						</table>
+					</div>
+					<hr />
+					<div align="center">
+						<table class="no-border">
+							<tr><td align="right"><b>Actions:</b></td><td>&nbsp;</td><td align="left">
+								<%= link_to change_password_path, class: "btn btn-default btn-small" do %>
+									<i class="icon-undo"></i>
+									Change Password
+								<% end %>
+								<%= link_to edit_user_registration_path, class: "btn btn-primary btn-small" do %>
+									<i class="icon-edit"></i>
+									Edit Details
+								<% end %>
+							</td></tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="span6">
+               <% if current_user.admin_id.nil? %>
+		<div class="widget-box">
+			<div class="widget-header widget-header-small header-color-green">
+				<h5><i class="icon-list"></i> Aws Details</h5>
+			</div>
+			
+			<div class="widget-body">
+				<div class="widget-main">	
+					<div class="row-fluid">
+						<span  style="margin-right: 5%;margin-left: 10%">
+							<b>Access Key :</b>
+						</span>
+						<span style="margin-right: 5%">
+							<%= @user.access_key %>
+						</span>
+					</div>
+					<div class="row-fluid">
+						<span  style="margin-right: 5%;margin-left: 8%">
+							<b>Secret Token :</b>
+						</span>
+						<span style="margin-right: 5%">
+							<%= @user.secret_token %>
+						</span>
+					</div>
+					<hr/>
+					<div class="row-fluid">
+						<span  style="margin-right: 5%;margin-left: 10%">
+							<b>Actions :</b>
+						</span>
+						<span style="margin-right: 5%">
+							<%= link_to edit_aws_creds_path, class: "btn btn-success btn-small" do %>
+								<i class="icon-edit"></i>
+								Edit Aws Credentials
+							<% end %>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+           <% end %>
+	</div>
+</div>

@@ -1,0 +1,125 @@
+<% content_for :breadcrumbs do %>
+	<div id="breadcrumbs">
+		<ul class="breadcrumb">
+			<li><i class="icon-home"></i><a href="<%= root_path %>">Home</a><span class="divider"><i class="icon-angle-right"></i></span></li>
+			<li class="active">Add New User</li>
+		</ul>
+	</div>
+<% end %>
+<% content_for :header do %>
+	<div class="page-header position-relative">
+        <a class="pull-right btn btn-default m-left-5 m-right-5" href="<%=  profile_path %>" rel="tooltip" title="Back">
+        <span class="glyphicon glyphicon-backward"></span>
+        Back
+        </a>
+		<h1>Add New Member</h1>
+	</div><!--/page-header-->
+<% end %>
+
+<div id="signup-box" class="visible widget-box no-border">
+
+      <% if resource.errors.count > 0 %>
+	      <%= content_tag :div, class: 'alert alert-error' do %>
+	        <button type="button" class="close" data-dismiss="alert">&times;</button>
+	        <%= resource.errors.full_messages.join(', ') %>
+	      <% end %>
+	    <% end %>
+
+        <div class="widget-body">
+         <div class="widget-main">
+            <h4 class="header green lighter bigger"><i class="icon-group blue"></i> New Member Registration</h4>
+            <div class="space-6"></div>
+
+            <p>
+                Enter your details to begin:
+            </p>
+            
+            <%= form_for(resource, :as => resource_name, :url => create_new_member_path(resource_name)) do |f| %>
+                 <fieldset>
+                    <label>
+                        <span class="block input-icon input-icon-right">
+                            <%= f.email_field :email, :autofocus => true, :class => "span12", :placeholder => "Email", :required => true %>
+                            <i class="icon-envelope"></i>
+                        </span>
+                    </label>
+                    <label>
+                        <span class="block input-icon input-icon-right">
+                            <%= f.text_field :first_name, :class => "span12", :placeholder => "First Name", :required => true %>
+                            <i class="icon-user"></i>
+                        </span>
+                    </label>
+                    <label>
+                        <span class="block input-icon input-icon-right">
+                            <%= f.text_field :last_name, :class => "span12", :placeholder => "Last Name", :required => true %>
+                            <i class="icon-user"></i>
+                        </span>
+                    </label>
+                   <label>
+                        <span class="block input-icon input-icon-right">
+                            <%= f.text_field :iam_username, :class => "span12", :placeholder => "AWS IAM User Name", :required => true %>
+                          <i class="icon-user"></i>
+                        </span>
+                   </label>
+                   <label>
+                        <span class="block input-icon input-icon-right">
+                            <%= f.password_field :iam_password, :class => "span12", :placeholder => "AWS IAM User Password", :required => true %>
+                          <i class="icon-user"></i>
+                        </span>
+                   </label>
+
+                   <label>
+                     <span class="block input-icon input-icon-right">
+                        <div class="span12" style="margin-left:0px;" id="password-policy">
+                     <!-- Content to be loaded using Ajax -->
+                        </div><!--/span-->
+                      </span>
+                   </label>
+
+                   <label>
+                     <div id ="test_div"></div>
+                        <span class="block input-icon input-icon-right">
+                           <%= f.select(:default_region, ["us-east-1", "us-west-2", "us-west-1", "eu-west-1", "ap-southeast-1", "ap-southeast-2", "ap-northeast-1", "sa-east-1", "us-gov-west-1"  ],{selected: current_user.default_region ,:include_blank => 'Select Your Time Zone'},{:Class=>'span12 form-control',:required => true}) %>
+
+                        </span>
+                   </label>
+
+                   <div class="span12" style="margin-left:0px;" id="list-groups">
+                     <!-- Content to be loaded using Ajax -->
+                   </div><!--/span-->
+                   <br/>
+
+                   <div class="control-group">
+                     <div class="controls">
+                       <%= f.check_box :role, {:class => "span12"}, "bussiness_man", 'member' %><span class="lbl">  Admin</span>
+                       <label for="user[role]" class="lbl"></label>
+                     </div>
+                   </div>
+
+
+                   <%= f.hidden_field :admin_id, :value => params["id"].to_i %>
+                    <div class="space-24"></div>
+                    <div class="row-fluid">
+                        <button type="reset" class="span6 btn btn-small"><i class="icon-refresh"></i> Reset</button>
+                        <button type="submit" class="span6 btn btn-small btn-success">
+                          <i class="icon-arrow-right icon-on-right"></i> Register
+                        </button>
+                    </div>
+                    
+                  </fieldset>
+            <% end %>
+        </div>
+        
+
+
+     </div><!--/widget-body-->
+
+    </div><!--/signup-box-->
+
+<script type='text/javascript'>
+    window.onload = function() {
+          $password_policy();
+          $list_groups();
+    };
+
+</script>
+

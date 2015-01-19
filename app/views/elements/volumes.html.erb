@@ -1,0 +1,28 @@
+<% content_for :breadcrumbs do %>
+	<div id="breadcrumbs">
+		<ul class="breadcrumb">
+			<li><i class="icon-home"></i><a href="<%= root_path %>">Home</a><span class="divider"><i class="icon-angle-right"></i></span></li>
+			<li class="active">Volumes</li>
+		</ul>
+	</div>
+<% end %>
+<% content_for :header do %>
+	<div class="page-header position-relative">
+		<h1>Volumes</h1>
+	</div><!--/page-header-->
+<% end %>
+
+<div class="row-fluid">
+	<div class="span12" style="margin-left:0px;" id="list-volumes">
+		<!-- Content to be loaded using Ajax -->
+	</div><!--/span-->
+</div><!--/row-->
+
+<script type='text/javascript'>
+	window.onload = function() {
+		$('li#nav-elements').addClass('active open');
+		$('li#nav-element-volumes').addClass('active');
+		$list_volumes();
+		var oTable1 = $('#table-volume').dataTable( {"aoColumns": [null, null, null,null, null,{ "bSortable": false }] } );
+	};
+</script>
