@@ -1,0 +1,11 @@
+set cron:
+  cron: '0 0 * * *'
+  class: ScheduleCron
+  args:
+  description: Set cron scheduling for schedule snapshot 
+
+drop snapshot:
+  cron: '0 0 * * *'
+  class: DeleteSnapshot
+  args:
+  description: cron for pruning snapshots which are having last retention day as today

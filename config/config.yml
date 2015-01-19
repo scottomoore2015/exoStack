@@ -1,0 +1,12 @@
+production: &defaults
+  app_name: "exoStack.com"
+  show_leaf: false
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+staging:
+  <<: *defaults

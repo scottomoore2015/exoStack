@@ -1,0 +1,21 @@
+production: &defaults
+  host: localhost
+  adapter: postgresql
+  encoding: unicode
+  database: AWS_Snapshots_development
+  pool: 5
+  username: insert_uername
+  password: insert_password
+
+development:
+  <<: *defaults
+  database: AWS_Snapshots_development
+
+test:
+  <<: *defaults
+  database: AWS_Snapshots_test
+
+staging:
+  <<: *defaults
+  database: AWS_Snapshots_staging
+
